@@ -12,36 +12,29 @@ const { NotImplementedError } = require('../extensions/index.js')
  *
  */
 function getSeason(date) {
-  throw new NotImplementedError('Not implemented')
-  // remove line with error and write your code here
   let name
-
   if (!date) return 'Unable to determine the time of year!'
 
-  const month = typeof date.getMonth === 'function' ? date : ''
+  if (date instanceof Date) {
+    if (date.hasOwnProperty('toString')) throw new Error('Invalid date!')
 
-  if (month === '') {
+    const season = [
+      { name: 'winter', months: [11, 0, 1] },
+      { name: 'summer', months: [5, 6, 7] },
+      { name: 'autumn', months: [8, 9, 10] },
+      { name: 'spring', months: [2, 3, 4] },
+    ]
+
+    season.forEach((item) => {
+      if (item.months.includes(date.getMonth())) {
+        name = item.name
+      }
+    })
+
+    return name
+  } else {
     throw new Error('Invalid date!')
   }
-
-  if (date.getFullYear() < 1970) {
-    throw new Error('Invalid date!')
-  }
-
-  const season = [
-    { name: 'winter', months: [11, 0, 1] },
-    { name: 'summer', months: [5, 6, 7] },
-    { name: 'autumn', months: [8, 9, 10] },
-    { name: 'spring', months: [2, 3, 4] },
-  ]
-
-  season.forEach((item) => {
-    if (item.months.includes(month.getMonth())) {
-      name = item.name
-    }
-  })
-
-  return name
 }
 
 module.exports = {
