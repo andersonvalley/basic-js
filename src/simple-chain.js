@@ -14,19 +14,23 @@ const chainMaker = {
     return chainMaker
   },
   removeLink(position) {
-    if (position <= 0 || position > this.result.length) throw new Error("You can't remove incorrect link!")
+    const index = position - 1
 
-    if (typeof position === 'number') {
-      this.result.splice(position - 1, 1)
-      return chainMaker
+    if (this.result[index] === undefined) {
+      this.result = []
+      throw new Error("You can't remove incorrect link!")
     }
+    this.result.splice(index, 1)
+    return chainMaker
   },
   reverseChain() {
     this.result.reverse()
     return chainMaker
   },
   finishChain() {
-    return String(chainMaker.result.join('~~'))
+    const res = this.result.join('~~')
+    this.result = []
+    return res
   },
 }
 
